@@ -1,37 +1,57 @@
-# Invera ToDo-List Challenge (Python/Django Jr-SSr)
+# Challenge Invera
 
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
+Este proyecto es una aplicación de gestión de tareas construida con Django y Streamlit, utilizando Docker para la ejecución.
 
-## Qué queremos que hagas:
+## Requisitos
 
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
+- Docker
+- Docker Compose
 
-## Objetivos:
+## Instalación
 
-El usuario de la aplicación tiene que ser capaz de:
+1. **Clonar el repositorio**:
 
-- Autenticarse
-- Crear una tarea
-- Eliminar una tarea
-- Marcar tareas como completadas
-- Poder ver una lista de todas las tareas existentes
-- Filtrar/buscar tareas por fecha de creación y/o por el contenido de la misma
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd challenge-invera
+   ```
 
-## Qué evaluamos:
+2. **Levantar contenedores**
+    ```bash
+    docker-compose up
+     ```
+4. **Acceder a la aplicación:**
 
-- Desarrollo utilizando Python, Django. No es necesario crear un Front-End, pero sí es necesario tener una API que permita cumplir con los objetivos de arriba.
-- Uso de librerías y paquetes estandares que reduzcan la cantidad de código propio añadido.
-- Calidad y arquitectura de código. Facilidad de lectura y mantenimiento del código. Estándares seguidos.
-- [Bonus] Manejo de logs.
-- [Bonus] Creación de tests (unitarias y de integración)
-- [Bonus] Unificar la solución propuesta en una imagen de Docker por repositorio para poder ser ejecutada en cualquier ambiente (si aplica para full stack).
+- Backend (Django): http://0.0.0.0:8000
+- Frontend (Streamlit): http://0.0.0.0:8501
 
-## Requerimientos de entrega:
+## Endpoints
+### Usuarios
+1. POST /api/auth/register/
 
-- Hacer un fork del proyecto y pushearlo en github. Puede ser privado.
-- La solución debe correr correctamente.
-- El Readme debe contener todas las instrucciones para poder levantar la aplicación, en caso de ser necesario, y explicar cómo se usa.
-- Disponibilidad para realizar una pequeña demo del proyecto al finalizar el challenge.
-- Tiempo para la entrega: Aproximadamente 7 días.
+Registra un nuevo usuario. Requiere un payload JSON con los campos necesarios para la creación de un usuario (ej. nombre de usuario, contraseña).
+
+2. POST /api/auth/login/
+
+Inicia sesión y obtiene un token de acceso. Requiere un payload JSON con nombre de usuario y contraseña.
+
+3. POST /api/auth/token/refresh/
+
+Refresca el token de acceso utilizando el token de refresco. Requiere el token de refresco en el payload.
+
+4. GET /api/auth/get_tasks/
+
+Obtiene la lista de tareas del usuario autenticado.
+
+### Tareas
+1. POST /api/tasks/create/
+
+Crea una nueva tarea. Requiere un payload JSON con la información de la tarea (title, description, deadline).
+
+2. DELETE /api/tasks/delete/<int:pk>/
+
+Elimina una tarea específica identificada por su ID. Devuelve un mensaje de éxito tras la eliminación.
+
+3. PATCH /api/tasks/update/<int:pk>/
+
+Actualiza el estado de una tarea específica identificada por su ID. Requiere un payload JSON con el nuevo estado (PROGRESS, DONE, CANCELLED, POSTPONED, EXPIRED).

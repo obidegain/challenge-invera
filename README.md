@@ -33,7 +33,7 @@ Registra un nuevo usuario. Requiere un payload JSON con los campos necesarios pa
 
 2. POST /api/auth/login/
 
-Inicia sesión y obtiene un token de acceso. Requiere un payload JSON con nombre de usuario y contraseña.
+Inicia sesión y obtiene un token de acceso y de refresco. Requiere un payload JSON con nombre de usuario y contraseña.
 
 3. POST /api/auth/token/refresh/
 
@@ -41,17 +41,17 @@ Refresca el token de acceso utilizando el token de refresco. Requiere el token d
 
 4. GET /api/auth/get_tasks/
 
-Obtiene la lista de tareas del usuario autenticado.
+Obtiene la lista de tareas del usuario autenticado. Requiere el token de acceso en los headers.
 
 ### Tareas
 1. POST /api/tasks/create/
 
-Crea una nueva tarea. Requiere un payload JSON con la información de la tarea (title, description, deadline).
+Crea una nueva tarea. Requiere un payload JSON con la información de la tarea (title, description, deadline). Requiere el token de acceso en los headers.
 
 2. DELETE /api/tasks/delete/<int:pk>/
 
-Elimina una tarea específica identificada por su ID. Devuelve un mensaje de éxito tras la eliminación.
+Elimina una tarea específica identificada por su ID. Devuelve un mensaje de éxito tras la eliminación. Requiere el token de acceso en los headers.
 
 3. PATCH /api/tasks/update/<int:pk>/
 
-Actualiza el estado de una tarea específica identificada por su ID. Requiere un payload JSON con el nuevo estado (PROGRESS, DONE, CANCELLED, POSTPONED, EXPIRED).
+Actualiza el estado de una tarea específica identificada por su ID. Requiere un payload JSON con el nuevo estado (PROGRESS, DONE, CANCELLED, POSTPONED, EXPIRED). Requiere el token de acceso en los headers.

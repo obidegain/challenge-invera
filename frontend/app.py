@@ -27,7 +27,7 @@ def register_user():
                 last_name=last_name
             )
             backend_conn = new_user_instance.backend_conn
-            if backend_conn.access_token:
+            if backend_conn and backend_conn.access_token:
                 st.session_state['backend_conn'] = backend_conn
                 st.success("Registro exitoso")
             else:
@@ -42,7 +42,7 @@ def login_page():
 
     if st.button('Login'):
         backend_conn = BackendConnection(username, password)
-        if backend_conn.access_token:
+        if backend_conn and backend_conn.access_token:
             st.session_state['backend_conn'] = backend_conn
             st.success("Login exitoso")
         else:

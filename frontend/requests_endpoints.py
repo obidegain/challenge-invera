@@ -7,8 +7,10 @@ class BackendConnection:
     def __init__(self, user, password):
         self.user = user,
         self.password = password
+        self.url_main = f'http://backend:8000/'
         self.access_token, self.refresh_token = self.login()
         self.list_tasks = self.get_list_tasks()
+
 
     def create_headers(self):
         access_token = self.access_token
@@ -28,7 +30,7 @@ class BackendConnection:
 
     def login(self):
         print('Login...')
-        url = 'http://localhost:8000/api/auth/login/'
+        url = f'{self.url_main}api/auth/login/'
         user = self.user
         password = self.password
 
@@ -59,7 +61,7 @@ class BackendConnection:
 
     def refresh_tokens(self):
         print('Solicitando refresh token...')
-        url = 'http://localhost:8000/api/auth/token/refresh/'
+        url = f'{self.url_main}api/auth/token/refresh/'
         refresh_token = self.refresh_token
         data = {
             "refresh": refresh_token
@@ -78,7 +80,7 @@ class BackendConnection:
     def get_list_tasks(self):
         print('Solicitando lista de tareas...')
         for i in range(3):
-            url = 'http://localhost:8000/api/auth/get_tasks/'
+            url = f'{self.url_main}api/auth/get_tasks/'
             headers = self.create_headers()
             response = requests.get(url, headers=headers)
 
@@ -91,7 +93,7 @@ class BackendConnection:
     def create_task(self, title, description, deadline):
         print('Creando nueva tarea...')
         for i in range(3):
-            url = 'http://www.localhost:8000/api/tasks/create/'
+            url = f'{self.url_main}api/tasks/create/'
             data = {
                 'title': title,
                 'description': description,
@@ -111,7 +113,7 @@ class BackendConnection:
 
     def update_status_task(self, id, new_status):
         for i in range(3):
-            url = f'http://www.localhost:8000/api/tasks/update/{id}/'
+            url = f'{self.url_main}api/tasks/update/{id}/'
             data = {
                 "status": new_status
             }
@@ -128,7 +130,7 @@ class BackendConnection:
 
     def delete_task(self, id):
         for i in range(3):
-            url = f'http://www.localhost:8000/api/tasks/delete/{id}/'
+            url = f'{self.url_main}api/tasks/delete/{id}/'
             headers = self.create_headers()
             response = requests.delete(url, headers=headers)
             if response.status_code == 204:

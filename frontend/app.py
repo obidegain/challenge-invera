@@ -1,5 +1,37 @@
 import streamlit as st
-from requests_endpoints import BackendConnection  # Importa la clase BackendConnection
+from requests_endpoints import BackendConnection, CreateNewUser
+
+
+def register_user():
+    st.title('Registro de nuevo usuario')
+    st.subheader("Por favor, complete los siguientes datos para registrarse")
+    first_name = st.text_input("Nombre")
+    last_name = st.text_input("Apellido")
+    username = st.text_input("Nombre de usuario")
+    password_first = st.text_input("Contraseña", type='password')
+    password_second = st.text_input("Repita la contraseña", type='password')
+    email = st.text_input("Email")
+
+    if st.button("Registrar"):
+        if not username or not password_first or not password_second or not email:
+            st.error("Por favor, complete todos los campos.")
+            if password_first != password_second:
+                st.error("Las contraseñas no coinciden.")
+        else:
+            new_user_instance = CreateNewUser(
+                username=username,
+                password_first=password_first,
+                password_second=password_second,
+                email=email,
+                first_name=first_name,
+                last_name=last_name
+            )
+            backend_conn = new_user_instance.backend_conn
+            if backend_conn.access_token:
+                st.session_state['backend_conn'] = backend_conn
+                st.success("Registro exitoso")
+            else:
+                st.error("Error en el registro")
 
 
 # Definir las páginas
@@ -104,9 +136,11 @@ def delete_task_page():
 
 
 def main():
-    st.sidebar.title("Navegación")
-    page = st.sidebar.radio("Selecciona una página",
-                            ("Login", "Ver Tareas", "Crear Tarea", "Modificar Estado", "Eliminar Tarea"))
+    st.sidebar.title("Menú")
+    page = st.sidebar.radio(
+        "Selecciona una página",
+        ("Login", "Ver Tareas", "Crear Tarea", "Modificar Estado", "Eliminar Tarea", "Registrar Nuevo Usuario")
+    )
 
     if page == "Login":
         login_page()
@@ -118,6 +152,8 @@ def main():
         update_task_status_page()
     elif page == "Eliminar Tarea":
         delete_task_page()
+    elif page == "Registrar Nuevo Usuario":
+        register_user()
 
 
 if __name__ == "__main__":

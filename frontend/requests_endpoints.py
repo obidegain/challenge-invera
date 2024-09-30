@@ -1,7 +1,7 @@
 from fake_useragent import UserAgent
 import requests
 
-local = True
+local = False
 if local:
     URL_MAIN = 'http://localhost:8000/'
 else:

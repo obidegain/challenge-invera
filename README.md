@@ -17,10 +17,19 @@ Este proyecto es una aplicación de gestión de tareas construida con Django y S
    ```
 
 2. **Levantar contenedores**
-    ```bash
-    docker-compose up
-     ```
-4. **Acceder a la aplicación:**
+
+  Primera vez:
+
+ ```bash
+ docker-compose up --build
+  ```
+
+  Demás veces:
+
+ ```bash
+ docker-compose up
+ ```
+3. **Acceder a la aplicación:**
 
 - Backend (Django): http://0.0.0.0:8000
 - Frontend (Streamlit): http://0.0.0.0:8501
